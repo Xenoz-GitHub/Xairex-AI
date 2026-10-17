@@ -1,0 +1,94 @@
+{
+  "audio": {
+    "input_device": null,
+    "output_device": null,
+    "sample_rate": 16000,
+    "frame_ms": 80,
+    "queue_max_frames": 100,
+    "min_speech_seconds": 0.4,
+    "silence_end_seconds": 1.2,
+    "pre_roll_seconds": 0.3,
+    "max_record_seconds": 15.0,
+    "speech_threshold_db": -40.0,
+    "speech_start_frames": 2
+  },
+  "wake_word": {
+    "enabled": true,
+    "model_path": "models/openwakeword/hey_jarvis_v0.1.onnx",
+    "threshold": 0.5,
+    "refractory_seconds": 1.5,
+    "vad_threshold": 0.0
+  },
+  "stt": {
+    "model_dir": "models/whisper/faster-whisper-small.en",
+    "model_size": "small",
+    "device": "cpu",
+    "compute_type": "int8",
+    "language": "en",
+    "beam_size": 5,
+    "cpu_threads": 4,
+    "vad_filter": true,
+    "hotwords": "",
+    "condition_on_previous_text": false,
+    "timeout_seconds": 180.0
+  },
+  "tts": {
+    "voice_path": "models/piper/en_US-amy-medium.onnx",
+    "speed": 1.0,
+    "volume": 1.0
+  },
+  "brain": {
+    "base_url": "http://127.0.0.1:11434",
+    "model": "xairex-fast",
+    "num_ctx": 4096,
+    "temperature": 0.6,
+    "timeout_seconds": 120.0,
+    "keep_alive": "30m",
+    "think": null,
+    "max_tool_rounds": 3,
+    "history_limit": 12,
+    "extra_instructions": ""
+  },
+  "memory": {
+    "enabled": true,
+    "database_path": "data/xairex.db",
+    "store_conversation": false,
+    "conversation_turn_limit": 12
+  },
+  "tools": {
+    "disabled": [],
+    "apps": {},
+    "browser": "chrome",
+    "website_aliases": {},
+    "approved_directories": ["~/Documents", "~/Desktop", "~/Downloads", "data/notes"],
+    "volume_step_percent": 10,
+    "wifi_interface": "",
+    "read_max_bytes": 1048576
+  },
+  "bridge": {
+    "enabled": true,
+    "port": 8769,
+    "log_dir": "data/browser",
+    "retention_hours": 7.0,
+    "announce_messages": true
+  },
+  "admin": {
+    "commands": {
+      "flush dns": "ipconfig /flushdns",
+      "verify system files": "sfc /verifyonly",
+      "scan disk": "chkdsk C: /scan"
+    },
+    "timeout_seconds": 120
+  },
+  "logging": {
+    "level": "INFO",
+    "console_level": "WARNING",
+    "file_enabled": true,
+    "file_path": "data/logs/xairex.log",
+    "debug_log_private": false
+  },
+  "ui": {
+    "animations": true,
+    "colors": "auto"
+  }
+}

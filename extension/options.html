@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Xairex Bridge — settings</title>
+    <style>
+      :root {
+        --bg: #0a0e14;
+        --panel: #10151d;
+        --edge: #1d2733;
+        --text: #cfe3f5;
+        --dim: #6b7d90;
+        --cyan: #35d5e0;
+        --green: #46d47f;
+        --yellow: #e6c347;
+        --red: #e05563;
+      }
+      body {
+        margin: 0;
+        padding: 18px 20px;
+        background: var(--bg);
+        color: var(--text);
+        font: 13px/1.5 Consolas, "Segoe UI", monospace;
+        min-width: 360px;
+      }
+      h1 {
+        margin: 0 0 2px;
+        font-size: 16px;
+        color: var(--cyan);
+        letter-spacing: 2px;
+      }
+      .sub {
+        color: var(--dim);
+        font-size: 11px;
+        margin-bottom: 14px;
+      }
+      .card {
+        background: var(--panel);
+        border: 1px solid var(--edge);
+        border-left: 3px solid var(--cyan);
+        padding: 12px 14px;
+        margin-bottom: 12px;
+      }
+      .row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 7px 0;
+      }
+      .row label {
+        flex: 1;
+      }
+      input[type="number"] {
+        width: 90px;
+        background: #0c1118;
+        border: 1px solid var(--edge);
+        color: var(--text);
+        font: inherit;
+        padding: 5px 8px;
+      }
+      input[type="checkbox"] {
+        accent-color: var(--cyan);
+        width: 16px;
+        height: 16px;
+      }
+      button {
+        background: #12202b;
+        border: 1px solid var(--cyan);
+        color: var(--cyan);
+        font: inherit;
+        padding: 7px 16px;
+        cursor: pointer;
+        letter-spacing: 1px;
+      }
+      button:hover {
+        background: #17303f;
+      }
+      #status-dot {
+        display: inline-block;
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        background: var(--dim);
+        margin-right: 7px;
+      }
+      .dot-connected {
+        background: var(--green) !important;
+        box-shadow: 0 0 8px var(--green);
+      }
+      .dot-offline {
+        background: var(--yellow) !important;
+      }
+      .dot-disabled {
+        background: var(--red) !important;
+      }
+      .hint {
+        color: var(--dim);
+        font-size: 11px;
+      }
+      #save-result {
+        color: var(--green);
+        font-size: 11px;
+        margin-left: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>XAIREX BRIDGE</h1>
+    <div class="sub">loopback only — nothing ever leaves this machine</div>
+
+    <div class="card">
+      <div class="row"><span id="status-dot"></span><span id="status-text">checking…</span></div>
+      <div class="row">
+        <button id="reconnect">RECONNECT NOW</button>
+        <span class="hint">Xairex must be running for the link to come up.</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="row">
+        <input type="checkbox" id="enabled" />
+        <label for="enabled">enabled — connect to Xairex while the browser is open</label>
+      </div>
+      <div class="row">
+        <label for="port">port (must match Xairex settings)</label>
+        <input type="number" id="port" min="1024" max="65535" />
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="row">
+        <input type="checkbox" id="logActivity" />
+        <label for="logActivity">record browsing activity (rolling log, auto-cycled by Xairex)</label>
+      </div>
+      <div class="hint">Activity log retention is managed on the Xairex side (7 hours by default).</div>
+    </div>
+
+    <div class="card">
+      <div class="hint" style="margin-bottom: 4px">message watching — switch any platform off to stop reading it</div>
+      <div class="row"><input type="checkbox" id="mon-facebook" /><label for="mon-facebook">Facebook</label></div>
+      <div class="row"><input type="checkbox" id="mon-instagram" /><label for="mon-instagram">Instagram</label></div>
+      <div class="row"><input type="checkbox" id="mon-messenger" /><label for="mon-messenger">Messenger</label></div>
+      <div class="row"><input type="checkbox" id="mon-discord" /><label for="mon-discord">Discord</label></div>
+    </div>
+
+    <div class="row">
+      <button id="save">SAVE</button>
+      <span id="save-result"></span>
+    </div>
+
+    <script src="options.js"></script>
+  </body>
+</html>

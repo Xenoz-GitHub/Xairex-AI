@@ -1,0 +1,76 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# --- Virtual environments ---
+.venv/
+venv/
+env/
+
+# --- Local configuration (may contain machine-specific settings) ---
+config/settings.json
+
+# --- Models: never commit weights or downloaded assets ---
+models/whisper/
+models/piper/
+models/openwakeword/
+models/MANIFEST.md
+*.onnx
+*.tflite
+*.ct2
+!models/README.md
+
+# --- Runtime data: database, logs, notes, anything personal ---
+data/*
+!data/.gitkeep
+
+# --- Logs & caches ---
+*.log
+.hf_cache/
+.cache/
+
+# --- Editors / OS ---
+.vscode/
+.idea/
+Thumbs.db
+Desktop.ini
+
+# --- Fullstack website (deployed separately) ---
+fullstack-website/
+
+# --- Sensitive documentation ---
+*DEPLOYMENT*.md
+*SESSION*.md
+*NEXT-SESSION*.md
+*QUICK-START*.md
+*TRACKING*.md
+*GITHUB-PREP*.md
+*IMPROVEMENTS*.md
+*TELEMETRY*.md
+*WEBSITE*.md
+AGENTS.md
+BLACK-BOX-PENTESTING.md
+FACEBOOK-SHELL-FIXES.md
+FIXING-*.md
+PENTEST-*.md
+RED-TEAM-*.md
+GETTING-DEEP-TECHNICAL-RESPONSES.md
+UI-IMPROVEMENTS*.md
+G14-*.md
+
+# --- Environment files ---
+.env
+.env.local
+.env*.local
+*.pem
+*.key
+*.secret
+
+# Web/Vercel deployment (not needed in code repo)
+xairex-web/

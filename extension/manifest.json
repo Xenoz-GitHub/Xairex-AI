@@ -1,0 +1,33 @@
+{
+  "name": "Xairex Bridge",
+  "description": "Connects this browser to the local Xairex assistant (loopback only): rolling 7-hour activity log, message alerts for Facebook/Instagram/Messenger/Discord, and YouTube control.",
+  "version": "0.1.2",
+  "manifest_version": 3,
+  "minimum_chrome_version": "116",
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": ["storage", "alarms", "tabs", "scripting"],
+  "host_permissions": ["*://www.youtube.com/*"],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.facebook.com/*",
+        "https://web.facebook.com/*",
+        "https://www.messenger.com/*",
+        "https://www.instagram.com/*",
+        "https://discord.com/*"
+      ],
+      "js": ["content/monitor.js"],
+      "run_at": "document_idle",
+      "all_frames": false
+    }
+  ],
+  "action": {
+    "default_title": "Xairex Bridge — settings"
+  },
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": false
+  }
+}
