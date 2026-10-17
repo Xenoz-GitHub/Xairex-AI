@@ -14,13 +14,28 @@ export default function HomePage() {
   const [aiResponse, setAiResponse] = useState('');
   const [isTyping, setIsTyping] = useState(false);
 
-  const demoConversation = {
-    user: "Hey Xairex, what's the time?",
-    ai: "It's 8:47 PM. Need anything else?"
-  };
+  const demoConversations = [
+    { user: "Hey Xairex, what's the time?", ai: "It's 8:47 PM. Need anything else?" },
+    { user: "Open Notepad for me", ai: "Opening Notepad now." },
+    { user: "Set volume to 50%", ai: "Volume set to 50%." },
+    { user: "What's 144 divided by 12?", ai: "144 divided by 12 equals 12." },
+  ];
+
+  const [currentConvoIndex, setCurrentConvoIndex] = useState(0);
+
+  useEffect(() => {
+    // Auto-start demo after 2 seconds
+    const autoStart = setTimeout(() => {
+      runDemo();
+    }, 2000);
+    
+    return () => clearTimeout(autoStart);
+  }, []);
 
   const runDemo = () => {
     if (demoState !== 'idle') return;
+    
+    const conversation = demoConversations[currentConvoIndex];
     
     // Reset
     setTypedText('');
@@ -29,7 +44,7 @@ export default function HomePage() {
     setDemoState('listening');
     
     // Type user message
-    const userText = demoConversation.user;
+    const userText = conversation.user;
     let charIndex = 0;
     const typeInterval = setInterval(() => {
       if (charIndex < userText.length) {
@@ -43,7 +58,7 @@ export default function HomePage() {
           setTimeout(() => {
             setDemoState('speaking');
             // Type AI response
-            const aiText = demoConversation.ai;
+            const aiText = conversation.ai;
             let aiCharIndex = 0;
             const aiTypeInterval = setInterval(() => {
               if (aiCharIndex < aiText.length) {
@@ -54,13 +69,18 @@ export default function HomePage() {
                 setTimeout(() => {
                   setDemoState('idle');
                   setIsTyping(false);
+                  // Move to next conversation and auto-restart
+                  setCurrentConvoIndex((prev) => (prev + 1) % demoConversations.length);
+                  setTimeout(() => {
+                    runDemo();
+                  }, 3000);
                 }, 2000);
               }
-            }, 50);
-          }, 1500);
-        }, 800);
+            }, 40);
+          }, 1000);
+        }, 600);
       }
-    }, 80);
+    }, 60);
   };
 
   return (
@@ -236,199 +256,223 @@ export default function HomePage() {
       </motion.header>
 
 
-      {/* Hero Section - Advanced Terminal & Neural Core */}
+      {/* Hero Section - Realistic Xairex GUI Simulation */}
       <section className="py-20 relative">
         <div className="container mx-auto px-6">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            {/* Advanced Terminal Card */}
+          <div className="grid lg:grid-cols-2 gap-16 items-start">
+            {/* Realistic Xairex GUI Window */}
             <motion.div
-              initial={{ opacity: 0, x: -100, rotateY: -15 }}
-              animate={{ opacity: 1, x: 0, rotateY: 0 }}
+              initial={{ opacity: 0, x: -100 }}
+              animate={{ opacity: 1, x: 0 }}
               transition={{ type: 'spring', stiffness: 60, damping: 15 }}
               className="relative group"
             >
-              {/* Glowing Border Effect */}
+              {/* Window Shadow */}
               <div className="absolute -inset-1 bg-gradient-to-r from-cyan via-electric to-purple-500 rounded-2xl opacity-50 blur-lg group-hover:opacity-75 transition-opacity duration-500"></div>
               
-              <div className="relative bg-gradient-to-br from-terminal via-neural to-terminal border border-cyan/30 rounded-2xl p-8 shadow-2xl backdrop-blur-sm">
-                {/* Terminal Header */}
-                <div className="flex gap-2 mb-6">
-                  {['red', 'yellow', 'green'].map((color, i) => (
-                    <motion.div
-                      key={color}
-                      className={`w-4 h-4 rounded-full bg-${color}-500`}
-                      whileHover={{ scale: 1.3, rotate: 180 }}
-                      animate={{
-                        boxShadow: [
-                          `0 0 5px var(--color-${color})`,
-                          `0 0 15px var(--color-${color})`,
-                          `0 0 5px var(--color-${color})`
-                        ]
-                      }}
-                      transition={{ duration: 2, repeat: Infinity, delay: i * 0.3 }}
-                    />
-                  ))}
-                </div>
-
-                {/* Title with Glitch Effect */}
-                <motion.div 
-                  className="mb-8"
-                  whileHover={{ scale: 1.02 }}
-                >
-                  <motion.h1 
-                    className="text-5xl font-bold text-cyan mb-3 drop-shadow-[0_0_20px_rgba(37,230,247,0.8)]"
-                    animate={{
-                      textShadow: [
-                        '0 0 20px rgba(37,230,247,0.8)',
-                        '0 0 30px rgba(37,230,247,1)',
-                        '0 0 20px rgba(37,230,247,0.8)'
-                      ]
-                    }}
+              {/* Main Window */}
+              <div className="relative bg-gradient-to-br from-[#0C1622] via-[#050A0F] to-[#0C1622] border-2 border-cyan/30 rounded-2xl shadow-2xl overflow-hidden">
+                {/* Window Title Bar */}
+                <div className="bg-gradient-to-r from-cyan/20 to-electric/20 border-b border-cyan/30 px-4 py-3 flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="flex gap-2">
+                      <motion.div className="w-3 h-3 rounded-full bg-red-500" whileHover={{ scale: 1.3 }} />
+                      <motion.div className="w-3 h-3 rounded-full bg-yellow-500" whileHover={{ scale: 1.3 }} />
+                      <motion.div className="w-3 h-3 rounded-full bg-green-500" whileHover={{ scale: 1.3 }} />
+                    </div>
+                    <span className="text-cyan font-bold text-sm">XAIREX AI v0.1.0</span>
+                  </div>
+                  <motion.div
+                    className="flex items-center gap-2 text-xs"
+                    animate={{ opacity: [0.5, 1, 0.5] }}
                     transition={{ duration: 2, repeat: Infinity }}
                   >
-                    XAIREX
-                  </motion.h1>
-                  <p className="text-gray-300 text-lg uppercase tracking-wider">
-                    OFFLINE NEURAL VOICE ASSISTANT
-                  </p>
-                  <motion.div
-                    className="flex items-center gap-2 mt-3"
-                    animate={{ opacity: [0.5, 1, 0.5] }}
-                    transition={{ duration: 1.5, repeat: Infinity }}
-                  >
-                    <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                    <span className="text-green-400 text-sm font-bold">SYSTEM READY</span>
+                    <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                    <span className="text-green-400 font-bold">ONLINE</span>
                   </motion.div>
-                </motion.div>
-
-                {/* Feature List with Professional SVG Icons */}
-                <div className="space-y-3 mb-8">
-                  {[
-                    { 
-                      icon: <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M7 4a3 3 0 016 0v4a3 3 0 11-6 0V4zm4 10.93A7.001 7.001 0 0017 8a1 1 0 10-2 0A5 5 0 015 8a1 1 0 00-2 0 7.001 7.001 0 006 6.93V17H6a1 1 0 100 2h8a1 1 0 100-2h-3v-2.07z"/></svg>,
-                      text: 'Local speech-to-text (Whisper)', 
-                      delay: 0 
-                    },
-                    { 
-                      icon: <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/><path fillRule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clipRule="evenodd"/></svg>,
-                      text: 'Local LLM brain (Ollama)', 
-                      delay: 0.1 
-                    },
-                    { 
-                      icon: <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM14.657 2.929a1 1 0 011.414 0A9.972 9.972 0 0119 10a9.972 9.972 0 01-2.929 7.071 1 1 0 01-1.414-1.414A7.971 7.971 0 0017 10c0-2.21-.894-4.208-2.343-5.657a1 1 0 010-1.414zm-2.829 2.828a1 1 0 011.415 0A5.983 5.983 0 0115 10a5.984 5.984 0 01-1.757 4.243 1 1 0 01-1.415-1.415A3.984 3.984 0 0013 10a3.983 3.983 0 00-1.172-2.828 1 1 0 010-1.415z" clipRule="evenodd"/></svg>,
-                      text: 'Local text-to-speech (Piper)', 
-                      delay: 0.2 
-                    },
-                    { 
-                      icon: <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clipRule="evenodd"/></svg>,
-                      text: '23 OS integration tools', 
-                      delay: 0.3 
-                    },
-                    { 
-                      icon: <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd"/></svg>,
-                      text: 'Zero cloud dependencies', 
-                      delay: 0.4 
-                    },
-                  ].map((item, i) => (
-                    <motion.div
-                      key={i}
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: item.delay + 0.5 }}
-                      whileHover={{ x: 10, scale: 1.02 }}
-                      className="flex items-center gap-3 text-gray-400 hover:text-cyan transition-colors cursor-pointer group/item"
-                    >
-                      <motion.span
-                        animate={{ scale: [1, 1.1, 1] }}
-                        transition={{ duration: 2, repeat: Infinity, delay: i * 0.2 }}
-                        className="text-cyan flex-shrink-0"
-                      >
-                        {item.icon}
-                      </motion.span>
-                      <span className="group-hover/item:translate-x-2 transition-transform">
-                        → {item.text}
-                      </span>
-                    </motion.div>
-                  ))}
                 </div>
 
-                {/* Animated Metrics Dashboard */}
-                <motion.div
-                  className="pt-6 border-t border-cyan/30"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 1 }}
-                >
-                  <p className="text-xs text-gray-600 mb-4 uppercase tracking-widest">RUNTIME METRICS</p>
-                  <div className="grid grid-cols-2 gap-4">
-                    {[
-                      { label: 'CPU', value: 'i5-13420H', color: 'cyan' },
-                      { label: 'RAM', value: '15.7 GB', color: 'electric' },
-                      { label: 'Response', value: '~1s warm', color: 'green' },
-                      { label: 'Status', value: 'READY', color: 'green' },
-                    ].map((metric, i) => (
-                      <motion.div
-                        key={i}
-                        className="bg-neural/50 rounded-lg p-3 border border-cyan/20"
-                        whileHover={{ scale: 1.05, borderColor: 'rgba(37, 230, 247, 0.5)' }}
-                      >
-                        <div className="text-xs text-gray-500 mb-1">{metric.label}</div>
-                        <div className={`text-sm font-mono font-bold text-${metric.color}-400`}>
-                          {metric.value}
-                        </div>
-                      </motion.div>
-                    ))}
+                {/* Status Bar */}
+                <div className="bg-neural/80 border-b border-cyan/20 px-4 py-2 flex items-center justify-between text-xs">
+                  <div className="flex items-center gap-4">
+                    <span className="text-gray-500">Model:</span>
+                    <span className="text-cyan font-mono">xairex-fast</span>
+                    <span className="text-gray-600">|</span>
+                    <span className="text-gray-500">Voice:</span>
+                    <span className="text-cyan font-mono">amy</span>
                   </div>
-                </motion.div>
+                  <div className="flex items-center gap-2">
+                    <motion.div
+                      className={`px-2 py-1 rounded text-xs font-bold ${
+                        demoState === 'listening' ? 'bg-green-500/20 text-green-400 border border-green-400' :
+                        demoState === 'thinking' ? 'bg-yellow-500/20 text-yellow-400 border border-yellow-400' :
+                        demoState === 'speaking' ? 'bg-purple-500/20 text-purple-400 border border-purple-400' :
+                        'bg-cyan/20 text-cyan border border-cyan'
+                      }`}
+                      animate={{ scale: demoState !== 'idle' ? [1, 1.05, 1] : 1 }}
+                      transition={{ duration: 0.5, repeat: demoState !== 'idle' ? Infinity : 0 }}
+                    >
+                      {demoState === 'listening' ? 'LISTENING' :
+                       demoState === 'thinking' ? 'THINKING' :
+                       demoState === 'speaking' ? 'SPEAKING' :
+                       'READY'}
+                    </motion.div>
+                  </div>
+                </div>
 
-                {/* Interactive Command Line with Live Demo */}
-                <motion.div 
-                  className="mt-6 pt-4 border-t border-cyan/30"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 1.2 }}
-                >
-                  <div className="bg-neural/70 rounded-lg p-4 border border-cyan/20 hover:border-cyan/40 transition-colors min-h-[120px]">
-                    {/* User Input */}
-                    {typedText && (
-                      <div className="flex items-start gap-3 mb-3">
-                        <span className="text-cyan font-bold">$</span>
-                        <div className="flex-1">
-                          <p className="text-cyan font-mono">{typedText}</p>
-                        </div>
+                {/* Chat Transcript Area */}
+                <div className="bg-[#050A0F] p-6 h-[400px] overflow-y-auto custom-scrollbar">
+                  <div className="space-y-4">
+                    {/* Welcome Message */}
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="flex items-start gap-3"
+                    >
+                      <div className="w-8 h-8 rounded-full bg-cyan/20 border border-cyan flex items-center justify-center flex-shrink-0">
+                        <svg className="w-4 h-4 text-cyan" fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/>
+                          <path fillRule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clipRule="evenodd"/>
+                        </svg>
                       </div>
-                    )}
-                    
-                    {/* AI Response */}
-                    {aiResponse && (
-                      <div className="flex items-start gap-3 mb-3">
-                        <span className="text-green-400 font-bold">◆</span>
-                        <div className="flex-1">
-                          <p className="text-green-400 font-mono">{aiResponse}</p>
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 mb-1">
+                          <span className="text-cyan font-bold text-sm">XAIREX</span>
+                          <span className="text-xs text-gray-600">system</span>
                         </div>
+                        <p className="text-gray-400 text-sm">
+                          Hello! I'm Xairex, your offline AI assistant. Try asking me something!
+                        </p>
                       </div>
-                    )}
-                    
-                    {/* Prompt */}
-                    {!isTyping && (
-                      <div className="flex items-center gap-3">
-                        <span className="text-cyan font-bold">$</span>
-                        <input
-                          type="text"
-                          placeholder="Type a command or 'talk' to speak..."
-                          className="flex-1 bg-transparent border-none outline-none text-cyan placeholder-gray-600 font-mono"
-                        />
-                        <motion.span
-                          animate={{ opacity: [0, 1, 0] }}
-                          transition={{ duration: 1, repeat: Infinity }}
-                          className="text-cyan text-xl font-bold"
+                    </motion.div>
+
+                    {/* User Message (Typed) */}
+                    <AnimatePresence>
+                      {typedText && (
+                        <motion.div
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          className="flex items-start gap-3"
                         >
-                          |
-                        </motion.span>
-                      </div>
+                          <div className="w-8 h-8 rounded-full bg-electric/20 border border-electric flex items-center justify-center flex-shrink-0">
+                            <svg className="w-4 h-4 text-electric" fill="currentColor" viewBox="0 0 20 20">
+                              <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd"/>
+                            </svg>
+                          </div>
+                          <div className="flex-1">
+                            <div className="flex items-center gap-2 mb-1">
+                              <span className="text-electric font-bold text-sm">You</span>
+                              <span className="text-xs text-gray-600">voice</span>
+                            </div>
+                            <p className="text-gray-300 text-sm">
+                              {typedText}
+                              {isTyping && demoState === 'listening' && (
+                                <motion.span
+                                  animate={{ opacity: [0, 1, 0] }}
+                                  transition={{ duration: 0.5, repeat: Infinity }}
+                                  className="text-electric"
+                                >
+                                  |
+                                </motion.span>
+                              )}
+                            </p>
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+
+                    {/* AI Response (Typed) */}
+                    <AnimatePresence>
+                      {aiResponse && (
+                        <motion.div
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          className="flex items-start gap-3"
+                        >
+                          <div className="w-8 h-8 rounded-full bg-cyan/20 border border-cyan flex items-center justify-center flex-shrink-0">
+                            <svg className="w-4 h-4 text-cyan" fill="currentColor" viewBox="0 0 20 20">
+                              <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/>
+                              <path fillRule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clipRule="evenodd"/>
+                            </svg>
+                          </div>
+                          <div className="flex-1">
+                            <div className="flex items-center gap-2 mb-1">
+                              <span className="text-cyan font-bold text-sm">XAIREX</span>
+                              <span className="text-xs text-gray-600">{
+                                demoState === 'thinking' ? 'processing...' :
+                                demoState === 'speaking' ? 'speaking' : 'response'
+                              }</span>
+                            </div>
+                            <p className="text-gray-300 text-sm">
+                              {aiResponse}
+                              {demoState === 'speaking' && (
+                                <motion.span
+                                  animate={{ opacity: [0, 1, 0] }}
+                                  transition={{ duration: 0.5, repeat: Infinity }}
+                                  className="text-cyan"
+                                >
+                                  |
+                                </motion.span>
+                              )}
+                            </p>
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                </div>
+
+                {/* Input Area */}
+                <div className="bg-neural/80 border-t border-cyan/30 p-4">
+                  <div className="flex items-center gap-3 bg-[#050A0F] rounded-lg px-4 py-3 border border-cyan/20">
+                    <svg className="w-5 h-5 text-gray-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd"/>
+                    </svg>
+                    <input
+                      type="text"
+                      placeholder={isTyping ? "Processing..." : "Type a message or press TALK..."}
+                      disabled={isTyping}
+                      className="flex-1 bg-transparent border-none outline-none text-gray-400 placeholder-gray-600 text-sm font-mono"
+                    />
+                    {!isTyping && (
+                      <motion.span
+                        animate={{ opacity: [0, 1, 0] }}
+                        transition={{ duration: 1, repeat: Infinity }}
+                        className="text-cyan"
+                      >
+                        |
+                      </motion.span>
                     )}
                   </div>
-                </motion.div>
+                </div>
+
+                {/* Footer Metrics */}
+                <div className="bg-gradient-to-r from-cyan/10 to-electric/10 border-t border-cyan/20 px-4 py-2">
+                  <div className="flex items-center justify-between text-xs">
+                    <div className="flex items-center gap-4">
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-gray-600">●</span>
+                        <span className="text-gray-500">Bridge:</span>
+                        <span className="text-green-400">Connected</span>
+                      </div>
+                      <div className="text-gray-600">|</div>
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-gray-500">Tools:</span>
+                        <span className="text-cyan">23 ready</span>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      {demoState !== 'idle' && (
+                        <>
+                          <span className="text-gray-500">Response:</span>
+                          <span className="text-yellow-400 font-mono">
+                            {demoState === 'thinking' ? '607ms' : demoState === 'speaking' ? '890ms' : '—'}
+                          </span>
+                        </>
+                      )}
+                    </div>
+                  </div>
+                </div>
               </div>
             </motion.div>
 
