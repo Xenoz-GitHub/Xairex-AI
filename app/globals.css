@@ -10,22 +10,111 @@
 }
 
 body {
-  background-color: #050A0F;
-  background-image: url('/banner.png');
-  background-attachment: fixed;
-  background-size: cover;
-  background-position: center;
+  background: linear-gradient(135deg, #050A0F 0%, #0C1622 50%, #050A0F 100%);
+  min-height: 100vh;
 }
 
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 10px;
 }
 
 ::-webkit-scrollbar-track {
   background: #050A0F;
+  border-left: 1px solid rgba(37, 230, 247, 0.1);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #25E6F7;
-  border-radius: 4px;
+  background: linear-gradient(180deg, #25E6F7 0%, #0EA5E9 100%);
+  border-radius: 5px;
+  border: 2px solid #050A0F;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #0EA5E9 0%, #25E6F7 100%);
+}
+
+@keyframes glitch {
+  0%, 100% { transform: translate(0); }
+  20% { transform: translate(-2px, 2px); }
+  40% { transform: translate(-2px, -2px); }
+  60% { transform: translate(2px, 2px); }
+  80% { transform: translate(2px, -2px); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { 
+    box-shadow: 0 0 20px rgba(37, 230, 247, 0.3),
+                0 0 40px rgba(37, 230, 247, 0.2),
+                0 0 60px rgba(37, 230, 247, 0.1);
+  }
+  50% { 
+    box-shadow: 0 0 30px rgba(37, 230, 247, 0.5),
+                0 0 60px rgba(37, 230, 247, 0.3),
+                0 0 90px rgba(37, 230, 247, 0.2);
+  }
+}
+
+@keyframes scan-line {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+@keyframes grid-move {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(50px, 50px); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -1000px 0; }
+  100% { background-position: 1000px 0; }
+}
+
+/* Neon glow effect */
+.neon-glow {
+  text-shadow: 
+    0 0 10px rgba(37, 230, 247, 0.8),
+    0 0 20px rgba(37, 230, 247, 0.6),
+    0 0 30px rgba(37, 230, 247, 0.4),
+    0 0 40px rgba(37, 230, 247, 0.2);
+}
+
+/* Cyberpunk border effect */
+.cyber-border {
+  position: relative;
+}
+
+.cyber-border::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: linear-gradient(45deg, #25E6F7, #0EA5E9, #25E6F7);
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity 0.3s;
+  z-index: -1;
+  animation: shimmer 3s infinite;
+  background-size: 200% 100%;
+}
+
+.cyber-border:hover::before {
+  opacity: 0.5;
+}
+
+/* Matrix-style text effect */
+.matrix-text {
+  background: linear-gradient(to bottom, #25E6F7 0%, rgba(37, 230, 247, 0.5) 50%, transparent 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: matrix-scroll 10s linear infinite;
+}
+
+@keyframes matrix-scroll {
+  0% { background-position: 0 0; }
+  100% { background-position: 0 1000px; }
 }
