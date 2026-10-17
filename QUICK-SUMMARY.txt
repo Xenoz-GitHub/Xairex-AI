@@ -1,0 +1,98 @@
+﻿=================================================================
+XAIREX WEBSITE - PNG FILES & LINKS SUMMARY
+=================================================================
+
+📸 PNG FILES LOCATION & STATUS
+─────────────────────────────────────────────────────────────────
+
+1. ICON - iconxairex.png
+   Local Path:    c:\Users\SuarezJ\Documents\MIDNIGHT-PROJECT\xairex-web\public\iconxairex.png
+   File Size:     1,048,475 bytes (1.0 MB)
+   Status:        ✅ Deployed to Vercel (blocked from serving)
+   Web URL:       https://xairex-ai.vercel.app/iconxairex.png (pending)
+   Usage:         Browser favicon, tab icon, PWA icon
+
+2. BANNER - banner.png
+   Local Path:    c:\Users\SuarezJ\Documents\MIDNIGHT-PROJECT\xairex-web\public\banner.png
+   File Size:     1,417,151 bytes (1.35 MB)
+   Status:        ✅ Deployed to Vercel (blocked from serving)
+   Web URL:       https://xairex-ai.vercel.app/banner.png (pending)
+   Usage:         Full-page background (fixed position)
+
+─────────────────────────────────────────────────────────────────
+
+🌐 DEPLOYMENT URLS (Currently BLOCKED - See Below)
+─────────────────────────────────────────────────────────────────
+
+Latest:         https://xairex-qbrioufb9-xenoz-githubs-projects.vercel.app
+Target:         https://xairex-ai.vercel.app (alias pending)
+Dashboard:      https://vercel.com/xenoz-githubs-projects/xairex-web
+Inspect:        https://vercel.com/xenoz-githubs-projects/xairex-web/4jZbaGunahiEMZU7SsaNW56UH8DV
+
+─────────────────────────────────────────────────────────────────
+
+📚 DOCUMENTATION FILES (All in xairex-web/)
+─────────────────────────────────────────────────────────────────
+
+⭐ COMPLETE-REFERENCE.md    15.1 KB  Master guide with all links
+📋 DEPLOYMENT-STATUS.md      8.3 KB  Current BLOCKED status
+📚 DEPLOYMENT-SUMMARY.md     6.3 KB  Technical overview
+🖼️  ASSETS-GUIDE.md          5.9 KB  PNG files usage guide
+📖 DEPLOY.md                 2.0 KB  Quick deployment guide
+📄 README.md                 0.9 KB  Project overview
+
+─────────────────────────────────────────────────────────────────
+
+⚠️  CURRENT STATUS: BLOCKED
+─────────────────────────────────────────────────────────────────
+
+Issue:          All deployments show state: "BLOCKED"
+Likely Cause:   Vercel account needs attention (billing/verification)
+Action:         Login to https://vercel.com and resolve
+Details:        See DEPLOYMENT-STATUS.md for full explanation
+
+─────────────────────────────────────────────────────────────────
+
+🔐 ADMIN CREDENTIALS
+─────────────────────────────────────────────────────────────────
+
+Admin Path:     /xenozexe
+PIN:            1346251346795846
+Session:        4 hours (HTTP-only cookie)
+Dashboard:      /xenozexe/dashboard
+
+─────────────────────────────────────────────────────────────────
+
+🔗 GITHUB REPOSITORIES
+─────────────────────────────────────────────────────────────────
+
+Main App:       https://github.com/Xenoz-GitHub/Xairex-AI
+Website:        (local only - not pushed yet)
+
+─────────────────────────────────────────────────────────────────
+
+🗄️  DATABASE
+─────────────────────────────────────────────────────────────────
+
+Provider:       Neon PostgreSQL
+Dashboard:      https://console.neon.tech/
+Host:           ep-restless-cell-b5kvfwh2.c-7.us-east-2.aws.neon.tech
+Database:       neondb
+
+─────────────────────────────────────────────────────────────────
+
+🚀 NEXT STEPS
+─────────────────────────────────────────────────────────────────
+
+1. Login to Vercel: https://vercel.com
+2. Resolve BLOCKED status (follow prompts/emails)
+3. Once unblocked, site will be live automatically
+4. Set alias: vercel alias set <url> xairex-ai.vercel.app
+5. Test all features (admin, geolocation, database)
+
+─────────────────────────────────────────────────────────────────
+
+📖 FOR COMPLETE DETAILS, READ:
+   xairex-web/COMPLETE-REFERENCE.md (15.1 KB)
+
+=================================================================

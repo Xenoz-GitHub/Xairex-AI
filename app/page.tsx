@@ -2,9 +2,21 @@
 
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { NeuralCore } from '@/components/NeuralCore';
+import { EnhancedNeuralCore } from '@/components/EnhancedNeuralCore';
+import { useState } from 'react';
+
+type State = 'idle' | 'listening' | 'thinking' | 'speaking';
 
 export default function HomePage() {
+  const [demoState, setDemoState] = useState<State>('idle');
+
+  const runDemo = () => {
+    setDemoState('listening');
+    setTimeout(() => setDemoState('thinking'), 2000);
+    setTimeout(() => setDemoState('speaking'), 3500);
+    setTimeout(() => setDemoState('idle'), 5500);
+  };
+
   return (
     <main className="min-h-screen">
       {/* Header */}
@@ -17,7 +29,8 @@ export default function HomePage() {
           </div>
           
           <nav className="hidden md:flex gap-6 text-sm">
-            <Link href="/#about" className="hover:text-cyan transition">About</Link>
+            <Link href="/features" className="hover:text-cyan transition">Features</Link>
+            <Link href="/demo" className="hover:text-cyan transition">Demo</Link>
             <Link href="/cli" className="hover:text-cyan transition">CLI</Link>
             <Link href="https://github.com/Xenoz-GitHub/Xairex-AI" target="_blank" className="px-4 py-2 border border-cyan text-cyan hover:bg-cyan hover:text-neural transition rounded">
               GitHub
@@ -97,18 +110,23 @@ export default function HomePage() {
               animate={{ opacity: 1, x: 0 }}
               className="flex flex-col items-center"
             >
-              <NeuralCore />
+              <EnhancedNeuralCore state={demoState} />
               
               <div className="mt-12 flex flex-wrap gap-3 justify-center">
-                <button className="px-6 py-2 bg-green-400/10 border border-green-400 text-green-400 rounded hover:bg-green-400 hover:text-neural transition">
-                  TALK
+                <button
+                  onClick={runDemo}
+                  disabled={demoState !== 'idle'}
+                  className={`px-6 py-2 border rounded transition ${
+                    demoState !== 'idle'
+                      ? 'bg-gray-700 border-gray-600 text-gray-500 cursor-not-allowed'
+                      : 'bg-green-400/10 border-green-400 text-green-400 hover:bg-green-400 hover:text-neural'
+                  }`}
+                >
+                  {demoState === 'idle' ? 'RUN DEMO' : demoState.toUpperCase()}
                 </button>
-                <button className="px-6 py-2 bg-red-500/10 border border-red-500 text-red-500 rounded hover:bg-red-500 hover:text-white transition">
-                  STOP
-                </button>
-                <button className="px-6 py-2 bg-cyan/10 border border-cyan text-cyan rounded hover:bg-cyan hover:text-neural transition">
-                  HEALTH
-                </button>
+                <Link href="/demo" className="px-6 py-2 bg-cyan/10 border border-cyan text-cyan rounded hover:bg-cyan hover:text-neural transition inline-block">
+                  FULL DEMO
+                </Link>
               </div>
             </motion.div>
           </div>
