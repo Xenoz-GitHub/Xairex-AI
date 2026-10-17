@@ -30,8 +30,8 @@ export default function HomePage() {
           
           <nav className="hidden md:flex gap-6 text-sm">
             <Link href="/features" className="hover:text-cyan transition">Features</Link>
-            <Link href="/demo" className="hover:text-cyan transition">Demo</Link>
             <Link href="/cli" className="hover:text-cyan transition">CLI</Link>
+            <Link href="/about" className="hover:text-cyan transition">About</Link>
             <Link href="https://github.com/Xenoz-GitHub/Xairex-AI" target="_blank" className="px-4 py-2 border border-cyan text-cyan hover:bg-cyan hover:text-neural transition rounded">
               GitHub
             </Link>
@@ -122,10 +122,10 @@ export default function HomePage() {
                       : 'bg-green-400/10 border-green-400 text-green-400 hover:bg-green-400 hover:text-neural'
                   }`}
                 >
-                  {demoState === 'idle' ? 'RUN DEMO' : demoState.toUpperCase()}
+                  {demoState === 'idle' ? 'RUN ANIMATION' : demoState.toUpperCase()}
                 </button>
-                <Link href="/demo" className="px-6 py-2 bg-cyan/10 border border-cyan text-cyan rounded hover:bg-cyan hover:text-neural transition inline-block">
-                  FULL DEMO
+                <Link href="/features" className="px-6 py-2 bg-cyan/10 border border-cyan text-cyan rounded hover:bg-cyan hover:text-neural transition inline-block">
+                  VIEW FEATURES
                 </Link>
               </div>
             </motion.div>
