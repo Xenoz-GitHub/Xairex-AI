@@ -1,7 +1,6 @@
 [build]
-  base = "xairex-web"
   command = "npm run build"
-  publish = "xairex-web/.next"
+  publish = ".next"
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"
