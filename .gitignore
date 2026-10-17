@@ -9,3 +9,33 @@ out/
 
 # Local Netlify folder
 .netlify
+
+# Development files (excluded from repo)
+AGENTS.md
+notes/
+tests/
+data/
+.pytest_cache/
+.ruff_cache/
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+env/
+
+# Documentation (exclude all except README)
+*.md
+!README.md
+
+# Deployment artifacts
+*.zip
+PRODUCTION-*.md
+DEPLOYMENT-*.md
+ADVANCED-*.md
+*-COMPLETE.md
+*-SUMMARY*.md
+*-FINAL*.md
+*-GUIDE.md
+*-CHECKLIST.md
+*-STATUS.md

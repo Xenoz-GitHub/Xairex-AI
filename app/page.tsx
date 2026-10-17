@@ -9,22 +9,58 @@ type State = 'idle' | 'listening' | 'thinking' | 'speaking';
 
 export default function HomePage() {
   const [demoState, setDemoState] = useState<State>('idle');
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState<string | null>(null);
+  const [typedText, setTypedText] = useState('');
+  const [aiResponse, setAiResponse] = useState('');
+  const [isTyping, setIsTyping] = useState(false);
 
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePos({ x: e.clientX, y: e.clientY });
-    };
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
+  const demoConversation = {
+    user: "Hey Xairex, what's the time?",
+    ai: "It's 8:47 PM. Need anything else?"
+  };
 
   const runDemo = () => {
+    if (demoState !== 'idle') return;
+    
+    // Reset
+    setTypedText('');
+    setAiResponse('');
+    setIsTyping(true);
     setDemoState('listening');
-    setTimeout(() => setDemoState('thinking'), 2000);
-    setTimeout(() => setDemoState('speaking'), 3500);
-    setTimeout(() => setDemoState('idle'), 5500);
+    
+    // Type user message
+    const userText = demoConversation.user;
+    let charIndex = 0;
+    const typeInterval = setInterval(() => {
+      if (charIndex < userText.length) {
+        setTypedText(userText.slice(0, charIndex + 1));
+        charIndex++;
+      } else {
+        clearInterval(typeInterval);
+        // Start AI processing
+        setTimeout(() => {
+          setDemoState('thinking');
+          setTimeout(() => {
+            setDemoState('speaking');
+            // Type AI response
+            const aiText = demoConversation.ai;
+            let aiCharIndex = 0;
+            const aiTypeInterval = setInterval(() => {
+              if (aiCharIndex < aiText.length) {
+                setAiResponse(aiText.slice(0, aiCharIndex + 1));
+                aiCharIndex++;
+              } else {
+                clearInterval(aiTypeInterval);
+                setTimeout(() => {
+                  setDemoState('idle');
+                  setIsTyping(false);
+                }, 2000);
+              }
+            }, 50);
+          }, 1500);
+        }, 800);
+      }
+    }, 80);
   };
 
   return (
@@ -40,23 +76,6 @@ export default function HomePage() {
           animation: 'grid-move 20s linear infinite'
         }}></div>
       </div>
-
-      {/* Mouse Trail Effect */}
-      <motion.div
-        className="fixed w-96 h-96 rounded-full pointer-events-none z-0"
-        style={{
-          background: 'radial-gradient(circle, rgba(37, 230, 247, 0.15) 0%, transparent 70%)',
-          left: mousePos.x - 192,
-          top: mousePos.y - 192,
-        }}
-        animate={{
-          scale: [1, 1.2, 1],
-        }}
-        transition={{
-          duration: 2,
-          repeat: Infinity,
-        }}
-      />
 
       {/* Professional Banner Section */}
       <div className="relative w-full h-[400px] overflow-hidden border-b border-cyan/30 shadow-2xl">
@@ -127,12 +146,12 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* Advanced Navigation Bar */}
+      {/* Advanced Navigation Bar - STICKY */}
       <motion.header 
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ type: 'spring', stiffness: 100 }}
-        className="sticky top-0 z-50 bg-neural/95 backdrop-blur-xl border-b border-cyan/30 shadow-lg"
+        className="fixed top-0 left-0 right-0 z-50 bg-neural/95 backdrop-blur-xl border-b border-cyan/30 shadow-lg"
       >
         <div className="container mx-auto px-6 py-4">
           <div className="flex justify-between items-center">
@@ -282,14 +301,34 @@ export default function HomePage() {
                   </motion.div>
                 </motion.div>
 
-                {/* Feature List with Animated Icons */}
+                {/* Feature List with Professional SVG Icons */}
                 <div className="space-y-3 mb-8">
                   {[
-                    { icon: '▶', text: 'Local speech-to-text (Whisper)', delay: 0 },
-                    { icon: '◆', text: 'Local LLM brain (Ollama)', delay: 0.1 },
-                    { icon: '♦', text: 'Local text-to-speech (Piper)', delay: 0.2 },
-                    { icon: '⚡', text: '23 OS integration tools', delay: 0.3 },
-                    { icon: '●', text: 'Zero cloud dependencies', delay: 0.4 },
+                    { 
+                      icon: <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M7 4a3 3 0 016 0v4a3 3 0 11-6 0V4zm4 10.93A7.001 7.001 0 0017 8a1 1 0 10-2 0A5 5 0 015 8a1 1 0 00-2 0 7.001 7.001 0 006 6.93V17H6a1 1 0 100 2h8a1 1 0 100-2h-3v-2.07z"/></svg>,
+                      text: 'Local speech-to-text (Whisper)', 
+                      delay: 0 
+                    },
+                    { 
+                      icon: <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/><path fillRule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clipRule="evenodd"/></svg>,
+                      text: 'Local LLM brain (Ollama)', 
+                      delay: 0.1 
+                    },
+                    { 
+                      icon: <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM14.657 2.929a1 1 0 011.414 0A9.972 9.972 0 0119 10a9.972 9.972 0 01-2.929 7.071 1 1 0 01-1.414-1.414A7.971 7.971 0 0017 10c0-2.21-.894-4.208-2.343-5.657a1 1 0 010-1.414zm-2.829 2.828a1 1 0 011.415 0A5.983 5.983 0 0115 10a5.984 5.984 0 01-1.757 4.243 1 1 0 01-1.415-1.415A3.984 3.984 0 0013 10a3.983 3.983 0 00-1.172-2.828 1 1 0 010-1.415z" clipRule="evenodd"/></svg>,
+                      text: 'Local text-to-speech (Piper)', 
+                      delay: 0.2 
+                    },
+                    { 
+                      icon: <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clipRule="evenodd"/></svg>,
+                      text: '23 OS integration tools', 
+                      delay: 0.3 
+                    },
+                    { 
+                      icon: <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd"/></svg>,
+                      text: 'Zero cloud dependencies', 
+                      delay: 0.4 
+                    },
                   ].map((item, i) => (
                     <motion.div
                       key={i}
@@ -300,9 +339,9 @@ export default function HomePage() {
                       className="flex items-center gap-3 text-gray-400 hover:text-cyan transition-colors cursor-pointer group/item"
                     >
                       <motion.span
-                        animate={{ scale: [1, 1.2, 1] }}
+                        animate={{ scale: [1, 1.1, 1] }}
                         transition={{ duration: 2, repeat: Infinity, delay: i * 0.2 }}
-                        className="text-2xl text-cyan"
+                        className="text-cyan flex-shrink-0"
                       >
                         {item.icon}
                       </motion.span>
@@ -342,27 +381,52 @@ export default function HomePage() {
                   </div>
                 </motion.div>
 
-                {/* Interactive Command Line */}
+                {/* Interactive Command Line with Live Demo */}
                 <motion.div 
                   className="mt-6 pt-4 border-t border-cyan/30"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 1.2 }}
                 >
-                  <div className="flex items-center gap-3 bg-neural/70 rounded-lg p-4 border border-cyan/20 hover:border-cyan/40 transition-colors">
-                    <span className="text-cyan font-bold">$</span>
-                    <input
-                      type="text"
-                      placeholder="Type a command or 'talk' to speak..."
-                      className="flex-1 bg-transparent border-none outline-none text-cyan placeholder-gray-600 font-mono"
-                    />
-                    <motion.span
-                      animate={{ opacity: [0, 1, 0] }}
-                      transition={{ duration: 1, repeat: Infinity }}
-                      className="text-cyan text-xl font-bold"
-                    >
-                      |
-                    </motion.span>
+                  <div className="bg-neural/70 rounded-lg p-4 border border-cyan/20 hover:border-cyan/40 transition-colors min-h-[120px]">
+                    {/* User Input */}
+                    {typedText && (
+                      <div className="flex items-start gap-3 mb-3">
+                        <span className="text-cyan font-bold">$</span>
+                        <div className="flex-1">
+                          <p className="text-cyan font-mono">{typedText}</p>
+                        </div>
+                      </div>
+                    )}
+                    
+                    {/* AI Response */}
+                    {aiResponse && (
+                      <div className="flex items-start gap-3 mb-3">
+                        <span className="text-green-400 font-bold">◆</span>
+                        <div className="flex-1">
+                          <p className="text-green-400 font-mono">{aiResponse}</p>
+                        </div>
+                      </div>
+                    )}
+                    
+                    {/* Prompt */}
+                    {!isTyping && (
+                      <div className="flex items-center gap-3">
+                        <span className="text-cyan font-bold">$</span>
+                        <input
+                          type="text"
+                          placeholder="Type a command or 'talk' to speak..."
+                          className="flex-1 bg-transparent border-none outline-none text-cyan placeholder-gray-600 font-mono"
+                        />
+                        <motion.span
+                          animate={{ opacity: [0, 1, 0] }}
+                          transition={{ duration: 1, repeat: Infinity }}
+                          className="text-cyan text-xl font-bold"
+                        >
+                          |
+                        </motion.span>
+                      </div>
+                    )}
                   </div>
                 </motion.div>
               </div>
@@ -396,10 +460,12 @@ export default function HomePage() {
                 />
               ))}
 
-              <EnhancedNeuralCore state={demoState} />
+              <div className="relative z-10">
+                <EnhancedNeuralCore state={demoState} />
+              </div>
               
               {/* Advanced Action Buttons */}
-              <div className="mt-16 flex flex-wrap gap-4 justify-center">
+              <div className="mt-20 flex flex-wrap gap-4 justify-center relative z-10">
                 <motion.button
                   onClick={runDemo}
                   disabled={demoState !== 'idle'}
@@ -584,19 +650,19 @@ export default function HomePage() {
             >
               {[
                 {
-                  icon: '■',
+                  icon: <svg className="w-10 h-10" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd"/></svg>,
                   title: '100% Private',
                   desc: 'No data leaves your machine. Ever.',
                   color: 'green',
                 },
                 {
-                  icon: '▲',
+                  icon: <svg className="w-10 h-10" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clipRule="evenodd"/></svg>,
                   title: 'Lightning Fast',
                   desc: 'Sub-second responses on CPU.',
                   color: 'yellow',
                 },
                 {
-                  icon: '◆',
+                  icon: <svg className="w-10 h-10" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clipRule="evenodd"/><path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z"/></svg>,
                   title: '23 Tools',
                   desc: 'System control, browser, files, and more.',
                   color: 'cyan',
@@ -609,8 +675,8 @@ export default function HomePage() {
                   transition={{ type: 'spring', stiffness: 300 }}
                 >
                   <motion.div
-                    className={`text-5xl mb-4 text-${feature.color}-400 font-bold`}
-                    animate={{ scale: [1, 1.2, 1] }}
+                    className={`text-${feature.color}-400 mb-4 flex justify-center`}
+                    animate={{ scale: [1, 1.1, 1] }}
                     transition={{ duration: 3, repeat: Infinity, delay: i * 0.2 }}
                   >
                     {feature.icon}
